@@ -24,7 +24,7 @@
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
     ```
 
-![05](assets/354.png)
+![05](assets/Selection_354.png)
 
 * #### Cek versi nvm yang tersedia
 ![01](assets/Selection_355.png)
