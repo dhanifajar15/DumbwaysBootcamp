@@ -23,15 +23,11 @@ Pada Route Table, Ganti Nama Router Default menjadi Public Route
 Tambahkan route dengan target internet gateway
 ![07](assets/Selection_387.png)
 
-Kemudian Buat Private Route
-![07](assets/07.png)
-
 Buat Key Pair sebagai security credentials ketika connect ke sebuah instance
 ![09](assets/Selection_388.png)
 
 Kemudian pada Security Gateway, buat SG NAT Instance dengan membuka SSH, HTTP, HTTPS, dan All Trafic pada IP tertentu
 ![11](assets/Selection_389.png)
-
 
 ## Kedua Membuat Public Ubuntu Server dan Private Ubuntu Server
 
@@ -76,7 +72,7 @@ Kemudian Pilih Next:Configuration Instance Detail dan arahkan Subnet ke Private 
 ![15](assets/Selection_405.png)
 
 Untuk Storage dibiarkan default yaitu 8 Gb Kemudian Klik add tags
-![17](assets/17.png)
+![17](assets/Selection_392.png)
 
 
 Untuk bagian Security Group Isi Seperti pada Gambar. Lalu Klik Review and Launch dan Klik Launch
@@ -142,6 +138,7 @@ Kemudian Sama dengan Langkah public Server Pilih Frontend Server dan Copy Privat
 ![43](assets/Selection_419.png)
 
 Hasil Akhir:
+
 ![44](assets/Selection_412.png)
 
 Cek Koneksi dengan ping ke google
