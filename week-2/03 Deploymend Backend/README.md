@@ -22,7 +22,7 @@ git clone git@github.com:sgnd/wayshub-backend.git
 ![04](assets/Selection_528.png)
 
 
-#### install packages `npm install` dan pm2 `sudo npm install -g pm2` dan buat file `ecosystem.config.js`
+#### Install packages `npm install` dan pm2 `sudo npm install -g pm2` dan buat file `ecosystem.config.js`
 ![03](assets/Selection_525.png)
 ![04](assets/Selection_526.png)
 
@@ -31,7 +31,7 @@ git clone git@github.com:sgnd/wayshub-backend.git
 module.exports = {
         apps: [
           {
-            name: 'library',
+            name: 'wayshub-backend',
             script: 'npm',
             args: 'start'
            }
@@ -41,15 +41,15 @@ module.exports = {
 
 ![04](assets/Selection_534.png)
 
-#### install packages untuk migrate database dengan command `npm install -g sequelize-cli` 
+#### Install packages untuk migrate database dengan command `npm install -g sequelize-cli` 
 
 ![04](assets/Selection_527.png)
 
-#### lakukan migrasi database dengan command `sequelize db:migrate all` dan `sequelize db:seed:all` jika gagal install `sudo npm install -g mysql2` terlebih dahulu
+#### Lakukan migrasi database dengan command `sequelize db:migrate all` dan `sequelize db:seed:all` jika gagal install `sudo npm install -g mysql2` terlebih dahulu
 
 ![04](assets/Selection_532.png)
 
-#### jalankan command `pm2 start ecosystem.config.js`
+#### Jalankan command `pm2 start ecosystem.config.js`
 
 ![04](assets/Selection_537.png)
 
