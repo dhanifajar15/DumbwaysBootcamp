@@ -1,104 +1,221 @@
 * # AWS Setup Database
 
 * ## Konfigurasi Database Server
-* #### SSH ke Database Server
+### Install dan Konfigurasi MySQ di Server Database 1 
 ![02](assets/01.png)
 
-* #### install mysql di database server menggunakan command dan pilih versi 5.7
-`wget https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb`
+#### Install paket `mysql-server` dan `mysql-client` dengan command:
+```
+sudo apt install mysql-server mysql-client
+```
 ![02](assets/02.png)
 
-`sudo dpkg -i mysql-apt-config_0.8.15-1_all.deb`
-![03](assets/03.png)
-![04](assets/04.png)
+####  Edit file /etc/mysql/mysql.conf.d/mysqld.cnf di database 1
+```
+server-id              = 1
+log_bin                = /var/log/mysql/mysql-bin.log
+binlog_do_db           = wayshub
+#bind-address          = 127.0.0.1
+```
+![02](assets/02.png)
 
-`sudo apt update && sudo apt -y upgrade`
-![05](assets/05.png)
+####  Sekarang restart service mysql:
+```
+sudo systemctl restart mysql.service
+```
+![02](assets/02.png)
 
-`sudo apt -y install mysql-server` dan isikan password
-![06](assets/06.png)
-![07](assets/07.png)
-
-* #### Buat user baru dan inisialisasi dengan 2 backend server
-
+####  Kemudian masuk ke mysql melalui terminal:
 ```
 mysql -u root -p
-
-CREATE USER 'backend'@'10.0.1.126' IDENTIFIED BY 'anjar'; 
-
-GRANT ALL PRIVILEGES ON *.* TO 'backend'@'10.0.1.126';
-
-FLUSH PRIVILEGES;
 ```
-catatan `'user'@'ip-backend' Identified By 'password';`
+![02](assets/02.png)
 
-![08](assets/08.png)
-![09](assets/09.png)
-
-* #### bind ip adress backend dengan database dan ubah ip bind adress menjadi ip Database Server
-`sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf` 
-![10](assets/10.png)
-
-* #### restart mysql
-![11](assets/11.png)
-
-* ## Konfigurasi Backend Server
-* #### SSH ke server backend dan install mysql-client dengan command
+#### membuat pseudo-user yang nanti akan mereplikasi database antara 2 server
 ```
-sudo apt-get update
-
-sudo apt-get install -y mysql-client
+create user 'replicator'@'%' identified by 'dhani';
 ```
-![12](assets/12.png)
+![02](assets/02.png)
 
-* #### akses database server dari backend server menggunakan command
-`mysql -u backend -h 10.0.1.58 -p`
-![13](assets/13.png)
-
-* ## Konfigurasi Master-Slave Replication Database 
-
-* #### Ubah file `mysqld.cnf` dengan tambahan server id=1 untuk master dan log_bin dan restart mysql (database1)
-`sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf` 
-![14](assets/14.png)
-
-* #### buat replikasi user (database1)
+####  Buat juga database yang akan di replikasi.
 ```
-mysql -u root
-CREATE USER 'repl'@'%' IDENTIFIED BY 'slavepassword';
-GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%';
-exit
+create database wayshub;
 ```
-![15](assets/15.png)
+![02](assets/02.png)
 
-* #### buat snapshot dan copy ke server slave atau database2
+####  Kemudian berikan permission ke user agar bisa mereplikasi database:
 ```
-mysqldump -u root -p --all-databases --master-data > masterdump.sql
-scp masterdump.sql database02@10.0.1.176:
+grant replication slave on *.* to 'replicator'@'%';
 ```
-![16](assets/16.png)
+![02](assets/02.png)
 
-* #### Ubah file `mysqld.cnf` dengan tambahan server id=2 dan bind adress diganti ip private (database2) dan restart mysql
-`sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf`
-![17](assets/17.png)
-
-* #### setting slave database untuk ke host master database
+####  mengetahui informasi mengenai status master mysql yang nanti akan dibutuhkan untuk konfigurasi Database 2
 ```
-mysql -u root
-CHANGE MASTER TO
-MASTER_HOST='10.0.1.237',
-MASTER_USER='repl',
-MASTER_PASSWORD='slavepassword';
-exit
+show master status;
 ```
-![18](assets/18.png)
+![02](assets/02.png)
 
-* #### Restore the snapshot pada slave database (database2)
-`mysql -uroot -p < masterdump.sql`
-![19](assets/19.png)
+### Install dan Konfigurasi MySQ di Server Database 2
 
-* #### Check status slave database
-![20](assets/20.png)
+#### Install paket `mysql-server` dan `mysql-client` dengan command:
+```
+sudo apt install mysql-server mysql-client
+```
+![02](assets/02.png)
 
-* #### tes sinkronisasi
-![21](assets/21.png)
-![22](assets/22.png)
+####  Edit file /etc/mysql/mysql.conf.d/mysqld.cnf di database 1
+```
+server-id              = 2
+log_bin                = /var/log/mysql/mysql-bin.log
+binlog_do_db           = wayshub
+#bind-address          = 127.0.0.1
+```
+![02](assets/02.png)
+
+####  Sekarang restart service mysql:
+```
+sudo systemctl restart mysql.service
+```
+![02](assets/02.png)
+
+####  Kemudian masuk ke mysql melalui terminal:
+```
+mysql -u root -p
+```
+![02](assets/02.png)
+
+#### membuat pseudo-user yang nanti akan mereplikasi database antara 2 server
+```
+create user 'replicator'@'%' identified by 'dhani';
+```
+![02](assets/02.png)
+
+####  Buat juga database yang akan di replikasi.
+```
+create database wayshub;
+```
+![02](assets/02.png)
+
+####  Kemudian berikan permission ke user agar bisa mereplikasi database:
+```
+grant replication slave on *.* to 'replicator'@'%';
+```
+![02](assets/02.png)
+
+####  Mengaktifkan replikasi dari Server A ke Server B, sesuaikan dengan informasi yang ada di database 1
+```
+stop slave; 
+CHANGE MASTER TO MASTER_HOST = '10.0.100.221', MASTER_USER = 'replicator', MASTER_PASSWORD = 'dhani', MASTER_LOG_FILE = 'mysql-bin.000001', MASTER_LOG_POS = 107; 
+start slave; 
+```
+![02](assets/02.png)
+
+####  mengetahui informasi mengenai status master mysql yang nanti akan dibutuhkan untuk konfigurasi Database 1
+```
+show master status;
+```
+![02](assets/02.png)
+
+### Konfigurasi Slave Server di Database 1 Server
+
+####  Mengaktifkan replikasi dari Server B ke Server A, sesuaikan drngan informasi yang ada di database 2
+```
+stop slave; 
+CHANGE MASTER TO MASTER_HOST = '10.0.100.221', MASTER_USER = 'replicator', MASTER_PASSWORD = 'dhani', MASTER_LOG_FILE = 'mysql-bin.000001', MASTER_LOG_POS = 107; 
+start slave; 
+```
+![02](assets/02.png)
+
+* ## Load Balance MySQL dengan Haproxy
+#### Pertama kita harus membuat 2 user di MySQL server yang nantinya akan digunakan oleh si HAProxy. User pertama akan digunakan si HAProxy untuk mengecek status dari si server.
+```
+root@database# mysql -u root -p -e "INSERT INTO mysql.user (Host,User) values ('172.19.0.254','haproxy_check'); FLUSH PRIVILEGES;"
+```
+
+![02](assets/01.png)
+
+#### User yang kedua harus memilki privileges setara dengan root yang nanti digunakan si HAProxy untuk mengakses server
+```
+mysql -u root -p -e "GRANT ALL PRIVILEGES ON *.* TO 'haproxy_root'@'172.19.0.254' IDENTIFIED BY 'dhani' WITH GRANT OPTION; FLUSH PRIVILEGES"
+```
+
+![02](assets/01.png)
+
+####   Menginstall MySql client di Load Balancer
+```
+apt-get install mysql-client
+```
+![02](assets/02.png)
+
+####  Tes untuk melihat database yang ada di Master dengan menggunakan user haproxy_root.
+```
+mysql -h 172.19.0.1 -u haproxy_root -p -e "SHOW DATABASES"
+```
+![02](assets/02.png)
+
+####  Install paket haproxy di server Load Balancer
+```
+apt-get install haproxy
+```
+![02](assets/02.png)
+
+####  Enable HAProxy
+```
+sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/haproxy
+```
+![02](assets/02.png)
+
+####  Backup file /etc/haproxy/haproxy.cfg
+```
+cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
+```
+![02](assets/02.png)
+
+####   Edit file tersebut
+```
+nano /etc/haproxy/haproxy.cfg
+```
+![02](assets/02.png)
+
+####  Tambahkan baris berikut
+```
+global
+    log 127.0.0.1 local0 notice
+    user haproxy
+    group haproxy
+
+defaults
+    log global
+    retries 2
+    timeout connect 3000
+    timeout server 5000
+    timeout client 5000
+
+listen mysql-cluster
+    bind 0.0.0.0:3306
+    mode tcp
+    option mysql-check user haproxy_check
+    balance roundrobin
+    server mysql-1 172.19.0.1:3306 check
+    server mysql-2 172.19.0.2:3306 check weight 2
+```
+![02](assets/02.png)
+
+####  Sekarang tinggal jalankan service dari HAProxy
+```
+service haproxy start
+```
+![02](assets/02.png)
+
+#### Tes untuk menampilkan database di HAProxy
+```
+mysql -h 127.0.0.1 -u haproxy_root -p -e "SHOW DATABASES"
+```
+![02](assets/02.png)
+
+####  Testing Load Balancing dengan menjalankan query menjalankan query dua kali.
+```
+mysql -h 127.0.0.1 -u haproxy_root -p -e "show variables like 'server_id'"
+```
+![02](assets/02.png)
+
