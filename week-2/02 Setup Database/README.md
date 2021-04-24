@@ -97,7 +97,9 @@ CHANGE MASTER TO MASTER_HOST = '10.0.100.221', MASTER_USER = 'replicator', MASTE
 start slave; 
 ```
 ![02](assets/Selection_671.png)
+
 ![02](assets/Selection_672.png)
+
 ![02](assets/Selection_673.png)
 
 ####  mengetahui informasi mengenai status master mysql yang nanti akan dibutuhkan untuk konfigurasi Database 1
@@ -114,8 +116,11 @@ stop slave;
 CHANGE MASTER TO MASTER_HOST = '10.0.100.221', MASTER_USER = 'replicator', MASTER_PASSWORD = 'dhani', MASTER_LOG_FILE = 'mysql-bin.000001', MASTER_LOG_POS = 107; 
 start slave; 
 ```
+
 ![02](assets/Selection_676.png)
+
 ![02](assets/Selection_677.png)
+
 ![02](assets/Selection_678.png)
 
  
