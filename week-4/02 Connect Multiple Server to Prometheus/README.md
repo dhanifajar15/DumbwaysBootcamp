@@ -23,24 +23,17 @@ CPU Usage
 ```
 100 - (avg by(instance)(irate(node_cpu_seconds_total{instance="10.0.1.249:9100",job="node_exporter",mode="idle"}[5m]))*100)
 ```
+![10](assets/Selection_765.png)
+
+
+![10](assets/Selection_766.png)
 Memory Usage
 ```
 (node_memory_MemTotal_bytes{instance="10.0.1.249:9100",job="node_exporter"} - (node_memory_MemFree_bytes{instance="10.0.1.249:9100",job="node_exporter"} +        
 node_memory_Cached_bytes{instance="10.0.1.249:9100",job="node_exporter"} + node_memory_Buffers_bytes{instance="10.0.1.249:9100",job="node_exporter"} )) /   
 node_memory_MemTotal_bytes{instance="10.0.1.249:9100",job="node_exporter"} * 100
 ```
-Storage
-```
-node_filesystem_size_bytes{device="/dev/xvda1", fstype="ext4", instance="10.0.1.249:9100", job="node_exporter", mountpoint="/"}
-```
-```
-node_filesystem_free_bytes{device="/dev/xvda1", fstype="ext4", instance="10.0.1.249:9100", job="node_exporter", mountpoint="/"}
-```
+![10](assets/Selection_767.png)
 
-Network
-```
-node_network_transmit_bytes_total{device="eth0", instance="10.0.1.249:9100", job="node_exporter"}
-```
-```
-node_network_receive_bytes_total{device="eth0", instance="10.0.1.249:9100", job="node_exporter"}
-```
+
+![10](assets/Selection_768.png)
