@@ -27,6 +27,9 @@ CPU Usage
 
 
 ![10](assets/Selection_766.png)
+
+
+
 Memory Usage
 ```
 (node_memory_MemTotal_bytes{instance="10.0.1.249:9100",job="node_exporter"} - (node_memory_MemFree_bytes{instance="10.0.1.249:9100",job="node_exporter"} +        
