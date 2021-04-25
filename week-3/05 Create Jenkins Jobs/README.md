@@ -46,9 +46,6 @@
 
 ![15](assets/Selection_723.png)
 
-* #### dan atur exec timeout 0
-![11](assets/11.png)
-
 * #### Install Plugin Discord Notifier. Kemudian pada Discord Buat channel. Klik Server Setting > Integrations > Buat Webhook dan Copy
 ![12](assets/Selection_724.png)
 
