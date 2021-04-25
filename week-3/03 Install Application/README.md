@@ -33,8 +33,12 @@ services:
 
 * #### Jalankan docker compose up untu
 Frontend
+
+
 ![03](assets/Selection_696.png)
 
 
 Backend
+
+
 ![04](assets/Selection_698.png)
