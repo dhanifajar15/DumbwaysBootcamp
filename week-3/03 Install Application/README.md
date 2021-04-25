@@ -31,7 +31,7 @@ services:
 ```
 ![01](assets/Selection_697.png)
 
-* #### Jalankan docker compose up untu
+* #### Jalankan docker-compose up 
 Frontend
 
 
