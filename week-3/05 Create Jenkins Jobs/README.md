@@ -1,44 +1,60 @@
 # Create Jenkins Jobs
 
-* #### Generate Token Github dengan cara masuk klik Settings > Developer Settings > Personal Access Tokens
-![01](assets/01.png)
+* #### Generate Token Github dengan cara masuk klik Settings > Developer Settings > Personal Access Tokens dan Pilih workflow dan admin:repo_hook
+![01](assets/Selection_709.png)
 
-* #### Pilih workflow dan admin:repo_hook
-![02](assets/02.png)
 
 * #### Masuk Ke Credentials dan Tambahan Credential dengan Secret Text kemudian Masuk Configuration Jenkins
-![03](assets/03.png)
+![03](assets/Selection_710.png)
+
+
+![06](assets/Selection_711.png)
 
 * #### Install Plugin Publish Over SSH dan tambahan Server untuk server target buka port 22 dari Server jenkins dan tambahan ssh-keygen jenkins di server frontend dan backend dan atur timeout 0ms
-![05](assets/05.png)
-![06](assets/06.png)
-![07](assets/07.png)
+![05](assets/Selection_712.png)
 
-* #### Buat freestyle project
-![04](assets/04.png)
 
-* #### Isi Source Code Management git
-![08](assets/08.png)
+
+![07](assets/Selection_713.png)
+
+
+
+![07](assets/Selection_714.png)
+
+
+![07](assets/Selection_715.png)
+
+
+![07](assets/Selection_716.png)
+
+
+![07](assets/Selection_717.png)
+
+
+* #### Buat freestyle project dan Isi Source Code Management git
+![08](assets/Selection_722.png)
+
+
 
 * #### Centang Build Triggers pada pilihan github hook trigger
-![09](assets/09.png)
+![09](assets/Selection_720.png)
 
 * #### Isi Build
-![10](assets/10.png)
-![15](assets/15.png)
+![10](assets/Selection_721.png)
+
+
+
+![15](assets/Selection_723.png)
 
 * #### dan atur exec timeout 0
 ![11](assets/11.png)
 
 * #### Install Plugin Discord Notifier. Kemudian pada Discord Buat channel. Klik Server Setting > Integrations > Buat Webhook dan Copy
-![12](assets/12.png)
+![12](assets/Selection_724.png)
 
 * #### Copy URL pada Post Build
-![13](assets/13.png)
+![13](assets/Selection_726.png)
 
-* #### Klik Build dan akan ada notifikasi dari discord
-![14](assets/14.png)
-![16](assets/16.png)
 
 * #### Hasil Akhir Output:
-![17](assets/17.png)
+![17](assets/Selection_725.png)
