@@ -45,5 +45,27 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 ![02](assets/Selection_683.png)
 
 
-![02](assets/Selection_684.png)
 
+* #### Tambahkan user ke group docker agar tidak perlu memberikan sudo ketika menjalankan docker
+```
+sudo usermod -aG docker reverseproxy
+```
+![02](assets/Selection_687.png)
+
+
+
+# Install Docker Compose
+
+* #### Download versi stable release dari Docker Compose
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+![02](assets/Selection_685.png)
+
+* #### Apply Executable Permission
+```
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+![02](assets/Selection_686.png)
