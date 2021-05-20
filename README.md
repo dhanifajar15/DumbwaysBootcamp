@@ -30,6 +30,5 @@
 - [01 Setup Monitoring Server](https://github.com/dhanifajar15/DumbwaysBootcamp/tree/master/week-4/01%20Setup%20Monitoring%20Server)
 - [02 Connect Multiple Server to Prometheus](https://github.com/dhanifajar15/DumbwaysBootcamp/tree/master/week-4/02%20Connect%20Multiple%20Server%20to%20Prometheus)
 - [03 Deploy PHP Application in cPanel](https://github.com/dhanifajar15/DumbwaysBootcamp/tree/master/week-4/03%20Deploy%20PHP%20Application%20in%20cPanel)
-- [04 Setup Server with Ansible](https://github.com/dhanifajar15/DumbwaysBootcamp/tree/master/week-4/04%20Setup%20Server%20With%20Ansible)
 
 
